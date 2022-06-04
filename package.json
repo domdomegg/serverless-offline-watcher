@@ -1,6 +1,6 @@
 {
   "name": "serverless-offline-watcher",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Run arbitrary commands when files are changed while running serverless-offline",
   "license": "MIT",
   "author": "Adam Jones (domdomegg)",
