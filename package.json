@@ -1,7 +1,7 @@
 {
-  "name": "typescript-library-template",
-  "version": "0.0.0",
-  "description": "Template for creating TypeScript libraries",
+  "name": "serverless-offline-watcher",
+  "version": "0.0.1",
+  "description": "Run arbitrary commands when files are changed while running serverless-offline",
   "license": "MIT",
   "author": "Adam Jones (domdomegg)",
   "main": "dist/index.js",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
+    "@types/serverless": "^3.12.7",
     "@typescript-eslint/eslint-plugin": "^5.3.0",
     "@typescript-eslint/parser": "^5.3.0",
     "eslint": "^7.32.0",
@@ -34,5 +35,8 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.3"
   }
 }

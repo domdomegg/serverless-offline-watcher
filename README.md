@@ -1,12 +1,61 @@
-# typescript-library-template
+# serverless-offline-watcher
 
-Personal template for creating TypeScript libraries.
+Run arbitrary commands when files are changed while running serverless-offline
+
+## Install
+
+```
+npm install --save-dev serverless-offline-watcher
+```
 
 ## Usage
 
-1. Use a copy of this template
-2. Add the `NPM_TOKEN` secret (For publishing)
-3. Update the package name and description in `package.json`
-4. Update this README
-5. Add the repo to the appropriate [file sync automation rules](https://github.com/domdomegg/domdomegg/blob/master/.github/workflows/repo-file-sync.yaml)
-6. Run `npm i` and start developing!
+### Serverless configuration
+
+Add it to your list of plugins, and custom config for what you want to do on files being changed.
+
+The `path` property may be a string, or array of strings. They be file paths, directory paths or glob patterns. Under the hood this library uses [chokidar](https://github.com/paulmillr/chokidar) for file watching and [picomatch](https://github.com/micromatch/picomatch) for glob patterns, so you can see there documentation for more details about supported patterns.
+
+serverless.yaml:
+
+```yaml
+plugins:
+  - serverless-offline
+  - serverless-offline-watcher
+
+custom:
+  serverless-offline-watcher:
+    - path: src/index.ts
+      command: echo "index.ts was modified!"
+    - path:
+        - src/api
+        - src/cow/*.js
+      command: echo "api folder or js file in cow folder was modified!"
+```
+
+serverless.js / serverless.ts:
+
+```ts
+export default {
+  plugins: [
+    "serverless-offline",
+    "serverless-offline-watcher",
+  ],
+  custom: {
+    'serverless-offline-watcher': [
+      {
+        path: "src/index.ts",
+        command: `echo "index.ts was modified!"`,
+      },
+      {
+        path: ["src/api", "src/cow/*.js"],
+        command: `echo "api folder or js file in cow folder was modified!"`,
+      },
+    ],
+  },
+}
+```
+
+### Running serverless-offline
+
+Use `serverless offline start` instead of `serverless offline`, if you aren't already. This is necessary for serverless-offline to fire off `init` and `end` lifecycle hooks so that we can start and stop the watch server correctly.
