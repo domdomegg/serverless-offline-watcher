@@ -4,6 +4,10 @@
   "description": "Run arbitrary commands when files are changed while running serverless-offline",
   "license": "MIT",
   "author": "Adam Jones (domdomegg)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/domdomegg/serverless-offline-watcher.git"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
