@@ -1,6 +1,6 @@
 import type Serverless from 'serverless';
-import { makeWatcher, Watcher } from '../src/watcher';
-import Plugin from '../src/index';
+import { makeWatcher, Watcher } from './watcher';
+import Plugin from './index';
 
 jest.mock('../src/watcher');
 
@@ -47,14 +47,14 @@ test('serverless-offline-watcher', async () => {
   expect(s?.stop).not.toHaveBeenCalled();
 
   // when... we call the init hook
-  await plugin.hooks['before:offline:start:init']();
+  await plugin.hooks['before:offline:start:init']?.();
 
   // then... the watcher is started
   expect(s?.start).toHaveBeenCalledTimes(1);
   expect(s?.stop).not.toHaveBeenCalled();
 
   // when... we call the end hook
-  await plugin.hooks['before:offline:start:end']();
+  await plugin.hooks['before:offline:start:end']?.();
 
   // then... the server is closed
   expect(s?.start).toHaveBeenCalledTimes(1);

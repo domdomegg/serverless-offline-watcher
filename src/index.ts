@@ -33,15 +33,13 @@ class ServerlessOfflineWatcherPlugin implements Plugin {
     if (this.config.length === 0) {
       this.serverless.cli.log(`${PLUGIN_NAME}: no entries in configuration, not doing anything`);
       this.hooks = {};
-      return this;
+      return;
     }
 
     this.hooks = {
       'before:offline:start:init': this.start,
       'before:offline:start:end': this.stop,
     };
-
-    return this;
   }
 
   private start = async () => {
@@ -50,7 +48,7 @@ class ServerlessOfflineWatcherPlugin implements Plugin {
     this.watcher.start();
 
     this.serverless.cli.log(`${PLUGIN_NAME}: started watchers`);
-  }
+  };
 
   private stop = async () => {
     this.serverless.cli.log(`${PLUGIN_NAME}: stopping watchers...`);
@@ -58,7 +56,7 @@ class ServerlessOfflineWatcherPlugin implements Plugin {
     await this.watcher.stop();
 
     this.serverless.cli.log(`${PLUGIN_NAME}: stopped watchers`);
-  }
+  };
 }
 
 // NB: export default (as opposed to export =) does not work here with Serverless

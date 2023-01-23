@@ -1,20 +1,9 @@
 {
+  "extends": "@tsconfig/node-lts-strictest/tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2019",
-
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-
-    "outDir": "dist",
-    "rootDirs": [
-      "src",
-      "test"
-    ],
-    "declaration": true,
+    "noEmit": true,
   },
   "include": [
     "src/**/*.ts"
-  ]
+  ],
 }

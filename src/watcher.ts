@@ -4,7 +4,7 @@ import { exec, ChildProcess } from 'child_process';
 export type Config = {
   path: string | string[];
   command: string;
-}[]
+}[];
 
 export interface Watcher {
   start: () => void;
