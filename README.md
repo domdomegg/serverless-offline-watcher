@@ -16,6 +16,8 @@ Add it to your list of plugins, and custom config for what you want to do on fil
 
 The `path` property may be a string, or array of strings. They be file paths, directory paths or glob patterns. Under the hood this library uses [chokidar](https://github.com/paulmillr/chokidar) for file watching and [picomatch](https://github.com/micromatch/picomatch) for glob patterns, so you can see there documentation for more details about supported patterns.
 
+The event type and the changed file path are available in environment variables `WATCHER_EVENT_TYPE` and `WATCHER_EVENT_PATH` respectively. The event type comes from chokidar and is one of `"add" | "addDir" | "change" | "unlink" | "unlinkDir"`.
+
 serverless.yaml:
 
 ```yaml
@@ -31,6 +33,9 @@ custom:
         - src/api
         - src/cow/*.js
       command: echo "api folder or js file in cow folder was modified!"
+    - path:
+        - src/**/**
+      command: "echo received $WATCHER_EVENT_TYPE event for $WATCHER_EVENT_PATH"
 ```
 
 serverless.js / serverless.ts:

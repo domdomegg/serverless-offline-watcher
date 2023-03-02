@@ -20,8 +20,13 @@ export const makeWatcher = (config: Config): Watcher => {
       config.forEach((c) => {
         const internalWatcher = chokidar.watch(c.path, { ignoreInitial: true });
 
-        internalWatcher.on('all', () => {
-          const call = exec(c.command, () => {
+        internalWatcher.on('all', (eventType, eventPath) => {
+          const env = {
+            ...process.env,
+            WATCHER_EVENT_TYPE: eventType,
+            WATCHER_EVENT_PATH: eventPath,
+          };
+          const call = exec(c.command, { env }, () => {
             if (call.pid) {
               delete processes[call.pid];
             }
