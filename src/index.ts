@@ -28,7 +28,7 @@ class ServerlessOfflineWatcherPlugin implements Plugin {
       if (typeof v.path !== 'string') throw new Error(`${PLUGIN_NAME}: config entry path property must be a string or string array, but the entry at index ${i} has a path with type ${typeof v.path}`);
     });
 
-    this.watcher = makeWatcher(this.config);
+    this.watcher = makeWatcher(this.config, serverless);
 
     if (this.config.length === 0) {
       this.serverless.cli.log(`${PLUGIN_NAME}: no entries in configuration, not doing anything`);

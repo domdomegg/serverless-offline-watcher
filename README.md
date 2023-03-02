@@ -61,6 +61,17 @@ export default {
 }
 ```
 
+In addition to running arbitrary shell commands, the plugin can also invoke a hook in some other
+serverless plugin, with the `hooks` option. The following will ask `serverless-offline` to
+clear its Worker cache when a file in the `src` directory is changed:
+
+```yaml
+    - path:
+        - src/**/*
+      hooks:
+        - offline:functionsUpdated
+```
+
 ### Running serverless-offline
 
 Use `serverless offline start` instead of `serverless offline`, if you aren't already. This is necessary for serverless-offline to fire off `init` and `end` lifecycle hooks so that we can start and stop the watch server correctly.
