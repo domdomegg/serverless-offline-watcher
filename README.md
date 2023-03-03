@@ -35,6 +35,7 @@ custom:
       command: echo "api folder or js file in cow folder was modified!"
     - path:
         - src/**/**
+      # this prints for example "received change event for src/path/to/file.ts"
       command: "echo received $WATCHER_EVENT_TYPE event for $WATCHER_EVENT_PATH"
 ```
 
