@@ -49,7 +49,7 @@ test('serverless-offline-watcher', async () => {
 
   // then... we have a mock watcher created
   expect(mockMakeWatcher).toHaveBeenCalledTimes(1);
-  expect(mockMakeWatcher).toHaveBeenCalledWith(serverlessMock.service.custom['serverless-offline-watcher'], expect.any(Object));
+  expect(mockMakeWatcher).toHaveBeenCalledWith(serverlessMock.service.custom['serverless-offline-watcher'], serverlessMock);
 
   // then... we provide init and end hooks
   expect(plugin.hooks).toHaveProperty('before:offline:start:init', expect.any(Function));
