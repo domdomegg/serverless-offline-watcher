@@ -11,10 +11,21 @@ test('serverless-offline-watcher', async () => {
   const serverlessMock = {
     service: {
       custom: {
-        'serverless-offline-watcher': [{
-          path: 'some/path',
-          command: 'echo "hi"',
-        }],
+        'serverless-offline-watcher': [
+          {
+            path: 'some/path',
+            command: 'echo "hi"',
+          },
+          {
+            path: 'other/path',
+            command: [
+              'echo "hi"',
+            ],
+            hook: [
+              'test',
+            ],
+          },
+        ],
         'some-other-plugin-that-should-not-interfere': {
           port: 2222,
         },

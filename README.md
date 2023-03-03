@@ -32,7 +32,9 @@ custom:
     - path:
         - src/api
         - src/cow/*.js
-      command: echo "api folder or js file in cow folder was modified!"
+      command:
+        - echo "api folder or js file in cow folder was modified!"
+        - echo "the command-option can also be an array of commands"
     - path:
         - src/**/**
       # this prints for example "received change event for src/path/to/file.ts"
@@ -63,13 +65,13 @@ export default {
 ```
 
 In addition to running arbitrary shell commands, the plugin can also invoke a hook in some other
-serverless plugin, with the `hooks` option. The following will ask `serverless-offline` to
+serverless plugin, with the `hook` option. The following will ask `serverless-offline` to
 clear its Worker cache when a file in the `src` directory is changed:
 
 ```yaml
     - path:
         - src/**/*
-      hooks:
+      hook:
         - offline:functionsUpdated
 ```
 

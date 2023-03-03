@@ -20,12 +20,9 @@ class ServerlessOfflineWatcherPlugin implements Plugin {
 
     this.config.forEach((v, i) => {
       if (typeof v !== 'object') throw new Error(`${PLUGIN_NAME}: config entries must be objects, but the entry at index ${i} was a ${typeof v}`);
-      if (typeof v.command !== 'string') throw new Error(`${PLUGIN_NAME}: config entry command property must be a string, but the entry at index ${i} has a command with type ${typeof v.command}`);
-      if (Array.isArray(v.path)) {
-        if (v.path.some((p) => typeof p !== 'string')) throw new Error(`${PLUGIN_NAME}: config entry path property must be a string or string array, but the entry at index ${i} has an array containing something else`);
-        return;
-      }
-      if (typeof v.path !== 'string') throw new Error(`${PLUGIN_NAME}: config entry path property must be a string or string array, but the entry at index ${i} has a path with type ${typeof v.path}`);
+      validateStringOrStringArray(v, i, 'command', true);
+      validateStringOrStringArray(v, i, 'hook', true);
+      validateStringOrStringArray(v, i, 'path', false);
     });
 
     this.watcher = makeWatcher(this.config, serverless);
@@ -57,6 +54,27 @@ class ServerlessOfflineWatcherPlugin implements Plugin {
 
     this.serverless.cli.log(`${PLUGIN_NAME}: stopped watchers`);
   };
+}
+
+function validateStringOrStringArray(config: Config[number], configIndex: number, configProperty: keyof Config[number], isOptional: boolean) {
+  const value: void | string | string[] = config[configProperty];
+  if (!value) {
+    if (!isOptional) {
+      throw new Error(`${PLUGIN_NAME}: config entry ${configProperty} is required, but for the entry at index ${configIndex} it was missing`);
+    }
+    return;
+  }
+
+  if (Array.isArray(value)) {
+    if (value.some((p) => typeof p !== 'string')) {
+      throw new Error(`${PLUGIN_NAME}: config entry path ${configProperty} must be a string or string array, but the entry at index ${configIndex} has an array containing something else`);
+    }
+    return;
+  }
+
+  if (typeof value !== 'string') {
+    throw new Error(`${PLUGIN_NAME}: config entry path ${configProperty} must be a string or string array, but the entry at index ${configIndex} has a ${configProperty} with type ${typeof value}`);
+  }
 }
 
 // NB: export default (as opposed to export =) does not work here with Serverless

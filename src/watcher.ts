@@ -4,8 +4,8 @@ import type Serverless from 'serverless';
 
 type ConfigItem = {
   path: string | string[];
-  command?: string;
-  hooks?: string | string[];
+  command?: string | string[];
+  hook?: string | string[];
 };
 
 export type Config = ConfigItem[];
@@ -51,11 +51,12 @@ export const makeWatcher = (config: Config, serverless: Serverless): Watcher => 
         const internalWatcher = chokidar.watch(c.path, { ignoreInitial: true });
 
         internalWatcher.on('all', async (eventType, eventPath) => {
-          if (c.command) {
-            await runCommand(c.command, eventType, eventPath);
+          // eslint-disable-next-line no-restricted-syntax
+          for (const command of normalizeStringArray(c.command)) {
+            // eslint-disable-next-line no-await-in-loop
+            await runCommand(command, eventType, eventPath);
           }
-          const hooks: string[] = ([] as string[]).concat(c.hooks || []);
-          hooks.forEach(runHook);
+          normalizeStringArray(c.hook).forEach(runHook);
         });
 
         internalWatchers.push(internalWatcher);
@@ -70,3 +71,5 @@ export const makeWatcher = (config: Config, serverless: Serverless): Watcher => 
     },
   };
 };
+
+const normalizeStringArray = (valueOrValues: void | string | string[]): string[] => ([] as string[]).concat(valueOrValues || []);
