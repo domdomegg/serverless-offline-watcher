@@ -11,10 +11,21 @@ test('serverless-offline-watcher', async () => {
   const serverlessMock = {
     service: {
       custom: {
-        'serverless-offline-watcher': [{
-          path: 'some/path',
-          command: 'echo "hi"',
-        }],
+        'serverless-offline-watcher': [
+          {
+            path: 'some/path',
+            command: 'echo "hi"',
+          },
+          {
+            path: 'other/path',
+            command: [
+              'echo "hi"',
+            ],
+            hook: [
+              'test',
+            ],
+          },
+        ],
         'some-other-plugin-that-should-not-interfere': {
           port: 2222,
         },
@@ -38,7 +49,7 @@ test('serverless-offline-watcher', async () => {
 
   // then... we have a mock watcher created
   expect(mockMakeWatcher).toHaveBeenCalledTimes(1);
-  expect(mockMakeWatcher).toHaveBeenCalledWith(serverlessMock.service.custom['serverless-offline-watcher']);
+  expect(mockMakeWatcher).toHaveBeenCalledWith(serverlessMock.service.custom['serverless-offline-watcher'], serverlessMock);
 
   // then... we provide init and end hooks
   expect(plugin.hooks).toHaveProperty('before:offline:start:init', expect.any(Function));
