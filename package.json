@@ -16,7 +16,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
+    "lint": "eslint",
     "clean": "rm -rf dist",
     "build": "tsc --project tsconfig.build.json",
     "prepublishOnly": "npm run clean && npm run build"
@@ -28,8 +28,8 @@
     "@tsconfig/node-lts-strictest": "^18.12.1",
     "@types/jest": "^29.2.6",
     "@types/serverless": "^3.12.9",
-    "eslint": "^8.32.0",
-    "eslint-config-domdomegg": "^1.2.0",
+    "eslint": "^9.0.0",
+    "eslint-config-domdomegg": "^2.0.9",
     "jest": "^29.3.1",
     "ts-jest": "^29.0.5",
     "typescript": "^4.9.4"
@@ -37,10 +37,5 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node"
-  },
-  "eslintConfig": {
-    "extends": [
-      "eslint-config-domdomegg"
-    ]
   }
 }
